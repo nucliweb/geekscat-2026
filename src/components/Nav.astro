@@ -1,0 +1,125 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+import LangSwitcher from './LangSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const pathname = Astro.url.pathname;
+const stripped = pathname.replace(/^\/(en|es)(?=\/|$)/, '') || '/';
+
+const routes = {
+  ca: { about: '/', cfp: '/cfp', speakers: '/ponents', agenda: '/agenda', sponsors: '/patrocinadors' },
+  en: { about: '/en/', cfp: '/en/cfp', speakers: '/en/speakers', agenda: '/en/agenda', sponsors: '/en/sponsors' },
+  es: { about: '/es/', cfp: '/es/cfp', speakers: '/es/ponentes', agenda: '/es/agenda', sponsors: '/es/patrocinadores' },
+} as const;
+
+const r = routes[locale];
+
+const navItems = [
+  { label: t('nav.about'), href: r.about, active: stripped === '/' },
+  { label: t('nav.cfp'), href: r.cfp, active: stripped.startsWith('/cfp') },
+  { label: t('nav.speakers'), href: r.speakers, active: stripped.startsWith('/ponents') || stripped.startsWith('/speakers') || stripped.startsWith('/ponentes') },
+  { label: t('nav.agenda'), href: r.agenda, active: stripped.startsWith('/agenda') },
+  { label: t('nav.sponsors'), href: r.sponsors, active: stripped.startsWith('/patrocinadors') || stripped.startsWith('/sponsors') || stripped.startsWith('/patrocinadores') },
+];
+---
+
+<nav
+  id="main-nav"
+  aria-label={t('nav.aria')}
+  class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant"
+>
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+
+    <a href={r.about} class="font-display font-bold text-xl tracking-widest text-primary-container shrink-0">
+      00_GEEKSCAT
+    </a>
+
+    <div class="hidden md:flex items-center gap-6 font-mono text-xs uppercase tracking-tighter">
+      {navItems.map(({ label, href, active }) => (
+        <a
+          href={href}
+          class={active
+            ? 'text-primary-container border-b-2 border-primary-container pb-0.5 transition-none'
+            : 'text-on-surface-variant hover:text-on-surface transition-colors duration-150 active:translate-y-px'}
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-3 shrink-0">
+      <div class="hidden md:flex items-center gap-2">
+        <LangSwitcher />
+        <ThemeToggle />
+      </div>
+      <a
+        href="#tickets"
+        class="hidden md:inline-flex items-center bg-primary-container text-on-primary-container font-mono font-bold text-xs px-5 py-2 uppercase tracking-tighter hover:bg-primary-fixed-dim transition-colors duration-150 active:translate-y-px"
+      >
+        {t('nav.tickets')}
+      </a>
+
+      <button
+        id="mobile-menu-btn"
+        aria-label="Menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="md:hidden p-2 text-on-surface-variant hover:text-on-surface transition-colors duration-150 cursor-pointer"
+      >
+        <span class="burger-open">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </span>
+        <span class="burger-close hidden">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    hidden
+    class="md:hidden bg-surface-container-lowest border-t border-outline-variant"
+  >
+    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col gap-1">
+      {navItems.map(({ label, href, active }) => (
+        <a
+          href={href}
+          class={`font-mono text-sm uppercase tracking-tighter py-3 border-b border-outline-variant/40 ${active ? 'text-primary-container' : 'text-on-surface-variant'}`}
+        >
+          {label}
+        </a>
+      ))}
+      <div class="flex items-center justify-between pt-4">
+        <LangSwitcher />
+        <ThemeToggle />
+      </div>
+      <a
+        href="#tickets"
+        class="mt-2 inline-flex items-center justify-center bg-primary-container text-on-primary-container font-mono font-bold text-sm px-5 py-3 uppercase tracking-tighter"
+      >
+        {t('nav.tickets')}
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = !menu?.hidden;
+    if (menu) menu.hidden = isOpen;
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    btn.querySelector('.burger-open')?.classList.toggle('hidden', !isOpen);
+    btn.querySelector('.burger-close')?.classList.toggle('hidden', isOpen);
+  });
+</script>

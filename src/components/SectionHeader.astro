@@ -1,0 +1,18 @@
+---
+interface Props {
+  tag: string;
+  title: string;
+  class?: string;
+}
+
+const { tag, title, class: className = '' } = Astro.props;
+---
+
+<header class={`mb-12 ${className}`}>
+  <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-3">
+    [ {tag} ]
+  </span>
+  <h2 class="font-display text-headline-lg uppercase tracking-tighter border-l-4 border-primary-container pl-6">
+    {title}
+  </h2>
+</header>

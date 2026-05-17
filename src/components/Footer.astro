@@ -1,0 +1,35 @@
+---
+import { getLocale, useTranslations } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+---
+
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+
+    <div class="flex flex-col gap-1 text-center md:text-left">
+      <span class="font-display font-bold text-xl tracking-widest text-primary-container">
+        00_GEEKSCAT
+      </span>
+      <p class="font-mono text-xs tracking-widest text-on-surface-variant uppercase">
+        © 2026 GEEKSCAT // LA CONFERÈNCIA DE GEEKS PER A GEEKS
+      </p>
+    </div>
+
+    <nav aria-label="Footer" class="flex flex-wrap justify-center gap-x-6 gap-y-2 font-mono text-xs tracking-widest uppercase">
+      <a href="#" class="text-on-surface-variant hover:text-primary-container transition-colors duration-150 footer-link">
+        {t('footer.code-of-conduct')}
+      </a>
+      <a href="#" class="text-on-surface-variant hover:text-primary-container transition-colors duration-150 footer-link">
+        {t('footer.volunteers')}
+      </a>
+      <a href="#" class="text-on-surface-variant hover:text-primary-container transition-colors duration-150 footer-link">
+        {t('footer.contact')}
+      </a>
+      <a href="#" class="text-on-surface-variant hover:text-primary-container transition-colors duration-150 footer-link">
+        {t('footer.archive')}
+      </a>
+    </nav>
+  </div>
+</footer>

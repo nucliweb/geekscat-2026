@@ -1,0 +1,24 @@
+---
+import { getLocale, getAlternateLocales } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const alternates = getAlternateLocales(Astro.url.pathname, locale);
+---
+
+<nav aria-label="Language switcher" class="flex items-center font-mono text-xs uppercase tracking-widest">
+  {alternates.map(({ locale: l, href, isCurrent }, i) => (
+    <>
+      {i > 0 && <span class="text-outline-variant mx-0.5" aria-hidden="true">/</span>}
+      <a
+        href={href}
+        hreflang={l}
+        aria-current={isCurrent ? 'true' : undefined}
+        class={isCurrent
+          ? 'text-primary-container font-bold'
+          : 'text-on-surface-variant hover:text-on-surface transition-colors duration-150'}
+      >
+        {l.toUpperCase()}
+      </a>
+    </>
+  ))}
+</nav>
