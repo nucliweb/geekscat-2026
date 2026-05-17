@@ -133,7 +133,7 @@ const tiers = [
             <div class="text-center">
               <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-2">SLOT DISPONIBLE</p>
               <p class="font-display text-headline-md text-on-surface-variant uppercase tracking-tight">[ LOGO_TBA ]</p>
-              <p class="font-mono text-code-sm text-primary-container/50 mt-3">STATUS: OPEN</p>
+              <p class="font-mono text-code-sm text-primary-container mt-3">STATUS: OPEN</p>
             </div>
           </div>
         </div>
@@ -149,8 +149,8 @@ const tiers = [
             {Array.from({ length: 2 }).map((_, i) => (
               <div class="border border-primary-fixed-dim/40 p-8 flex items-center justify-center min-h-32 bg-surface-container hover:border-primary-fixed-dim transition-colors duration-200">
                 <div class="text-center">
-                  <p class="font-mono text-code-sm text-primary-fixed-dim/60 uppercase tracking-widest mb-1">SLOT {String(i + 1).padStart(2, '0')}</p>
-                  <p class="font-display text-headline-md text-on-surface-variant/60 uppercase tracking-tight">[ LOGO_TBA ]</p>
+                  <p class="font-mono text-code-sm text-primary-fixed-dim uppercase tracking-widest mb-1">SLOT {String(i + 1).padStart(2, '0')}</p>
+                  <p class="font-display text-headline-md text-outline uppercase tracking-tight" aria-hidden="true">[ LOGO_TBA ]</p>
                 </div>
               </div>
             ))}
@@ -169,7 +169,7 @@ const tiers = [
               <div class="border border-outline-variant p-6 flex items-center justify-center min-h-28 bg-surface-container hover:border-on-surface-variant transition-colors duration-200">
                 <div class="text-center">
                   <p class="font-mono text-code-sm text-outline uppercase tracking-widest mb-1">SLOT {String(i + 1).padStart(2, '0')}</p>
-                  <p class="font-display text-label-md text-on-surface-variant/50 uppercase tracking-tight">[ LOGO_TBA ]</p>
+                  <p class="font-display text-label-md text-outline uppercase tracking-tight" aria-hidden="true">[ LOGO_TBA ]</p>
                 </div>
               </div>
             ))}
@@ -187,8 +187,8 @@ const tiers = [
             {Array.from({ length: 6 }).map((_, i) => (
               <div class="border border-outline-variant/60 p-4 flex items-center justify-center min-h-20 bg-surface-container hover:border-outline-variant transition-colors duration-200">
                 <div class="text-center">
-                  <p class="font-mono text-code-sm text-outline/60 uppercase tracking-widest text-xs mb-0.5">S{String(i + 1).padStart(2, '0')}</p>
-                  <p class="font-display text-label-md text-on-surface-variant/40 uppercase tracking-tight text-xs">TBA</p>
+                  <p class="font-mono text-code-sm text-outline uppercase tracking-widest text-xs mb-0.5">S{String(i + 1).padStart(2, '0')}</p>
+                  <p class="font-display text-label-md text-outline uppercase tracking-tight text-xs" aria-hidden="true">TBA</p>
                 </div>
               </div>
             ))}
@@ -210,9 +210,7 @@ const tiers = [
 
         <!-- Diputació de Girona -->
         <div class="bg-surface-container border border-outline-variant p-8 flex flex-col gap-4">
-          <div class="w-full aspect-video border border-outline-variant/60 flex items-center justify-center bg-surface-container-high">
-            <span class="font-mono text-code-sm text-on-surface-variant/40">LOGO_TBA</span>
-          </div>
+          <div class="w-full aspect-video border border-outline-variant/60 flex items-center justify-center bg-surface-container-high" aria-hidden="true"></div>
           <div>
             <p class="font-display text-headline-md uppercase tracking-tight mb-1">Diputació de Girona</p>
             <p class="font-mono text-code-sm text-on-surface-variant uppercase tracking-widest">COL·LABORADOR INSTITUCIONAL</p>
@@ -223,16 +221,16 @@ const tiers = [
         <!-- Slot TBA 2 -->
         <div class="bg-surface-container border border-outline-variant/40 border-dashed p-8 flex items-center justify-center min-h-48">
           <div class="text-center">
-            <p class="font-mono text-code-sm text-on-surface-variant/40 uppercase tracking-widest mb-2">[ SLOT DISPONIBLE ]</p>
-            <p class="font-body text-body-md text-on-surface-variant/30">Entitat o institució col·laboradora</p>
+            <p class="font-mono text-code-sm text-outline uppercase tracking-widest mb-2">[ SLOT DISPONIBLE ]</p>
+            <p class="font-body text-body-md text-outline">Entitat o institució col·laboradora</p>
           </div>
         </div>
 
         <!-- Slot TBA 3 -->
         <div class="bg-surface-container border border-outline-variant/40 border-dashed p-8 flex items-center justify-center min-h-48">
           <div class="text-center">
-            <p class="font-mono text-code-sm text-on-surface-variant/40 uppercase tracking-widest mb-2">[ SLOT DISPONIBLE ]</p>
-            <p class="font-body text-body-md text-on-surface-variant/30">Entitat o institució col·laboradora</p>
+            <p class="font-mono text-code-sm text-outline uppercase tracking-widest mb-2">[ SLOT DISPONIBLE ]</p>
+            <p class="font-body text-body-md text-outline">Entitat o institució col·laboradora</p>
           </div>
         </div>
 
@@ -261,7 +259,7 @@ const tiers = [
           {t('sponsors.cta.dossier')}
         </CTAButton>
       </div>
-      <p class="font-mono text-code-sm text-on-surface-variant/40 mt-10">
+      <p class="font-mono text-code-sm text-outline mt-10">
         patrocinis@geekscat.cat // RESPONSE_TIME &lt; 48h
       </p>
     </div>

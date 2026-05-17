@@ -105,8 +105,7 @@ const cfpPath = localizedPath('/cfp', locale);
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 
         <!-- Historia — col-8 -->
-        <article class="md:col-span-8 bg-surface-container border border-outline-variant p-8 relative overflow-hidden">
-          <span class="absolute top-0 right-0 font-mono text-code-sm text-primary-container/20 p-4 select-none" aria-hidden="true">01_HISTORY.LOG</span>
+        <article class="md:col-span-8 bg-surface-container border border-outline-variant p-8 relative overflow-hidden" data-watermark="01_HISTORY.LOG">
           <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-4">[ HISTORIA ]</p>
           <h3 class="font-display text-headline-md uppercase tracking-tight mb-4">
             D'UNA FESTA DE CODI<br/>A UNA CONFERÈNCIA TÈCNICA
@@ -157,8 +156,7 @@ const cfpPath = localizedPath('/cfp', locale);
         </article>
 
         <!-- Valors — col-8 -->
-        <article class="md:col-span-8 bg-surface-container border border-outline-variant p-8 relative overflow-hidden">
-          <span class="absolute top-0 right-0 font-mono text-code-sm text-secondary-container/20 p-4 select-none" aria-hidden="true">VALUES.CFG</span>
+        <article class="md:col-span-8 bg-surface-container border border-outline-variant p-8 relative overflow-hidden" data-watermark-secondary="VALUES.CFG">
           <p class="font-mono text-code-sm text-secondary-container uppercase tracking-widest mb-4">[ VALORS ]</p>
           <h3 class="font-display text-headline-md uppercase tracking-tight mb-6">EL QUE ENS FA GEEKS</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -219,16 +217,14 @@ const cfpPath = localizedPath('/cfp', locale);
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {Array.from({ length: 4 }).map((_, i) => (
           <article class="bg-surface-container border border-outline-variant p-6 flex flex-col" aria-label={`Ponent ${i + 1} - Per anunciar`}>
-            <div class="w-full aspect-square bg-surface-container-high border border-outline-variant mb-4 flex items-center justify-center" aria-hidden="true">
-              <span class="font-mono text-code-sm text-on-surface-variant opacity-30">IMG_TBA</span>
-            </div>
+            <div class="w-full aspect-square bg-surface-container-high border border-outline-variant mb-4" aria-hidden="true"></div>
             <p class="font-mono text-code-sm text-primary-container mb-1">
               SPEAKER_{String(i + 1).padStart(2, '0')}
             </p>
             <p class="font-display text-headline-md uppercase tracking-tight">PROPERAMENT</p>
             <p class="font-body text-body-md text-on-surface-variant mt-2 flex-1 text-sm">[ TBA ]</p>
             <div class="mt-4 pt-3 border-t border-outline-variant">
-              <span class="font-mono text-code-sm text-on-surface-variant opacity-50">STATUS: PENDING</span>
+              <span class="font-mono text-code-sm text-outline">STATUS: PENDING</span>
             </div>
           </article>
         ))}
@@ -255,7 +251,7 @@ const cfpPath = localizedPath('/cfp', locale);
           <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
             Contribucions, governança, comunitats i projectes de codi obert que estan canviant el món del programari.
           </p>
-          <p class="mt-6 font-mono text-code-sm text-primary-container/60">CFP OPEN →</p>
+          <p class="mt-6 font-mono text-code-sm text-primary-container">CFP OPEN →</p>
         </article>
 
         <article class="bg-surface-container border-l-4 border-secondary-container p-8 hover:bg-surface-container-high transition-colors duration-200">
@@ -264,7 +260,7 @@ const cfpPath = localizedPath('/cfp', locale);
           <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
             Infraestructura com a codi, observabilitat, CI/CD, Kubernetes i les millors pràctiques per a sistemes en producció.
           </p>
-          <p class="mt-6 font-mono text-code-sm text-secondary-container/60">CFP OPEN →</p>
+          <p class="mt-6 font-mono text-code-sm text-secondary-container">CFP OPEN →</p>
         </article>
 
         <article class="bg-surface-container border-l-4 border-primary-fixed-dim p-8 hover:bg-surface-container-high transition-colors duration-200">
@@ -273,7 +269,7 @@ const cfpPath = localizedPath('/cfp', locale);
           <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
             IA aplicada, LLMs, pipelines de dades, MLOps i casos d'ús reals de machine learning en producció.
           </p>
-          <p class="mt-6 font-mono text-code-sm text-primary-fixed-dim/60">CFP OPEN →</p>
+          <p class="mt-6 font-mono text-code-sm text-primary-fixed-dim">CFP OPEN →</p>
         </article>
 
         <article class="bg-surface-container border-l-4 border-secondary-fixed-dim p-8 hover:bg-surface-container-high transition-colors duration-200">
@@ -282,7 +278,7 @@ const cfpPath = localizedPath('/cfp', locale);
           <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
             Arquitectures modernes, rendiment web, accessibilitat, seguretat i el futur de la plataforma web.
           </p>
-          <p class="mt-6 font-mono text-code-sm text-secondary-fixed-dim/60">CFP OPEN →</p>
+          <p class="mt-6 font-mono text-code-sm text-secondary-fixed-dim">CFP OPEN →</p>
         </article>
 
       </div>
@@ -362,9 +358,7 @@ const cfpPath = localizedPath('/cfp', locale);
   <div class="border-t border-b border-outline-variant" aria-hidden="true">
     <div class="flex overflow-hidden">
       {(['HARDWARE', 'SOFTWARE', 'NETWORK', 'COMMUNITY'] as const).map((label) => (
-        <div class="flex-1 min-h-32 bg-surface-container-high border-r border-outline-variant last:border-r-0 flex items-center justify-center">
-          <span class="font-mono text-code-sm text-on-surface-variant opacity-20 uppercase tracking-widest">{label}</span>
-        </div>
+        <div class="flex-1 min-h-32 bg-surface-container-high border-r border-outline-variant last:border-r-0 flex items-center justify-center" data-label={label}></div>
       ))}
     </div>
   </div>

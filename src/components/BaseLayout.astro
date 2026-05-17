@@ -14,7 +14,7 @@ const {
   title,
   description = 'La conferència de geeks per a geeks de Catalunya.',
   canonical,
-  ogImage = '/og-default.png',
+  ogImage,
 } = Astro.props;
 
 const siteUrl = 'https://conf.geeks.cat';
@@ -48,8 +48,8 @@ const fullTitle = title === '00_GEEKSCAT CONF 2026' ? title : `${title} · GEEKS
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
-    <meta name="twitter:card" content="summary_large_image" />
+    {ogImage && <meta property="og:image" content={`${siteUrl}${ogImage}`} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -65,8 +65,13 @@ const fullTitle = title === '00_GEEKSCAT CONF 2026' ? title : `${title} · GEEKS
     />
   </head>
   <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-container focus:text-on-primary focus:font-mono focus:text-code-sm">
+      Saltar al contingut principal
+    </a>
     <Nav />
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
     <Footer />
   </body>
 </html>

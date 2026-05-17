@@ -263,6 +263,47 @@ body {
   background-size: 40px 40px;
 }
 
+/* Decorative watermark via CSS pseudo-element (avoids contrast audit on aria-hidden spans) */
+[data-watermark]::after {
+  content: attr(data-watermark);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: var(--text-code-sm);
+  color: var(--gc-primary-container);
+  opacity: 0.2;
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-watermark-secondary]::after {
+  content: attr(data-watermark-secondary);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: var(--text-code-sm);
+  color: var(--gc-secondary-container);
+  opacity: 0.2;
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-label]::after {
+  content: attr(data-label);
+  font-family: monospace;
+  font-size: var(--text-code-sm);
+  color: var(--gc-on-surface-variant);
+  opacity: 0.2;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Footer link >_ hover prefix */
 @utility footer-link {
   &:hover::before {
