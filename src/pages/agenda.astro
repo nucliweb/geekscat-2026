@@ -1,0 +1,304 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getLocale, useTranslations, localizedPath } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const cfpPath = localizedPath('/cfp', locale);
+
+const allTalks = await getCollection('talks');
+const talks = allTalks.filter((tk) => tk.data.locale === locale);
+
+const allSpeakers = await getCollection('speakers');
+const speakerMap = new Map(allSpeakers.map((s) => [s.data.slug, s.data]));
+
+const TRACKS = [
+  { id: 'open-source', label: 'Open Source',  accent: 'primary-container' },
+  { id: 'devops-sre',  label: 'DevOps & SRE', accent: 'secondary-container' },
+  { id: 'ai-data',     label: 'AI & Data',    accent: 'primary-fixed-dim' },
+  { id: 'web-dev',     label: 'Web Dev',       accent: 'secondary-fixed-dim' },
+] as const;
+
+type TrackId = typeof TRACKS[number]['id'];
+
+const timeSlots = [...new Set(talks.map((tk) => tk.data.time).filter(Boolean))].sort() as string[];
+
+const schedule = timeSlots.map((time) => ({
+  time,
+  byTrack: Object.fromEntries(
+    TRACKS.map(({ id }) => [id, talks.find((tk) => tk.data.time === time && tk.data.track === id)])
+  ) as Record<TrackId, (typeof talks)[number] | undefined>,
+}));
+
+const levelLabels: Record<string, string> = {
+  beginner:     'BEGINNER',
+  intermediate: 'INTERMEDIATE',
+  advanced:     'ADVANCED',
+};
+---
+
+<BaseLayout
+  title="04_AGENDA"
+  description="Agenda de GeeksCAT Conf 2026. 4 tracks tècnics: Open Source, DevOps & SRE, AI & Data i Web Dev."
+>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <header class="relative pt-32 pb-16 px-6 border-b border-outline-variant overflow-hidden">
+    <div class="absolute inset-0 grid-lines opacity-10 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-5xl mx-auto relative z-10">
+      <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-6">
+        [ SCHEDULE_SYSTEM ]
+      </span>
+      <h1 class="font-display uppercase tracking-tighter mb-4 leading-none"
+          style="font-size: clamp(2.5rem, 8vw, 5rem)">
+        {t('agenda.title')}
+      </h1>
+      <div class="flex flex-wrap gap-4 items-center">
+        <span class="font-mono text-code-sm border border-outline-variant text-on-surface-variant px-5 py-2">
+          DATA: [ TBA ]
+        </span>
+        <span class="font-mono text-code-sm border border-outline-variant text-on-surface-variant px-5 py-2">
+          LLOC: [ TBA ]
+        </span>
+        <span class="font-mono text-code-sm border border-outline-variant text-on-surface-variant px-5 py-2">
+          TRACKS: 04
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHEDULE GRID
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-labelledby="schedule-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="PROGRAMA" title="SCHEDULE" />
+
+      {schedule.length > 0 ? (
+        /* ── Agenda amb dades ── */
+        <div class="overflow-x-auto custom-scrollbar -mx-6 px-6">
+          <table class="w-full min-w-[640px] border-collapse" role="grid" aria-label="Programa de la conferència">
+            <thead>
+              <tr>
+                <th scope="col" class="w-20 shrink-0 font-mono text-code-sm text-on-surface-variant/60 uppercase tracking-widest text-left pb-4 pr-4">
+                  HORA
+                </th>
+                {TRACKS.map(({ label, accent }) => (
+                  <th scope="col" class="font-mono text-code-sm uppercase tracking-widest text-left pb-4 px-3">
+                    <span class={`text-${accent}`}>{label}</span>
+                  </th>
+                ))}
+              </tr>
+              <tr aria-hidden="true">
+                <td colspan={5} class="pb-4">
+                  <div class="h-px bg-outline-variant"></div>
+                </td>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/40">
+              {schedule.map(({ time, byTrack }) => (
+                <tr class="group">
+                  <td class="py-4 pr-4 align-top">
+                    <span class="font-mono text-code-sm text-on-surface-variant/60 whitespace-nowrap">{time}</span>
+                  </td>
+                  {TRACKS.map(({ id, accent }) => {
+                    const talk = byTrack[id];
+                    const speaker = talk ? speakerMap.get(talk.data.speakerSlug) : undefined;
+                    return (
+                      <td class="py-4 px-3 align-top">
+                        {talk ? (
+                          <div class={`border-l-2 border-${accent} pl-4`}>
+                            <p class="font-display text-label-md uppercase tracking-tight leading-snug mb-1">
+                              {talk.data.title}
+                            </p>
+                            {speaker && (
+                              <p class="font-body text-body-md text-on-surface-variant text-sm mb-2">
+                                {speaker.name}
+                              </p>
+                            )}
+                            <div class="flex flex-wrap gap-2">
+                              {talk.data.level && (
+                                <span class="font-mono text-xs text-on-surface-variant/60 border border-outline-variant/60 px-2 py-0.5">
+                                  {levelLabels[talk.data.level]}
+                                </span>
+                              )}
+                              <span class="font-mono text-xs text-on-surface-variant/60 border border-outline-variant/60 px-2 py-0.5 uppercase">
+                                {talk.data.lang}
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <div class="pl-4 border-l border-outline-variant/20">
+                            <span class="font-mono text-code-sm text-on-surface-variant/20">—</span>
+                          </div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        /* ── Estat buit ── */
+        <div class="border border-outline-variant">
+          {/* Capçalera de tracks */}
+          <div class="overflow-x-auto custom-scrollbar">
+            <div class="min-w-[640px]">
+              <div class="grid grid-cols-[5rem_1fr_1fr_1fr_1fr] border-b border-outline-variant">
+                <div class="p-4 font-mono text-code-sm text-on-surface-variant/40 uppercase">HORA</div>
+                {TRACKS.map(({ label, accent }) => (
+                  <div class="p-4 border-l border-outline-variant">
+                    <span class={`font-mono text-code-sm text-${accent} uppercase tracking-widest`}>{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Fila buida */}
+              <div class="grid grid-cols-[5rem_1fr_1fr_1fr_1fr]">
+                <div class="p-4 font-mono text-code-sm text-on-surface-variant/30">TBA</div>
+                <div class="col-span-4 p-8 border-l border-outline-variant flex items-center justify-center">
+                  <div class="text-center">
+                    <p class="font-display text-headline-md uppercase tracking-tight text-on-surface-variant/40 terminal-cursor">
+                      {t('agenda.empty')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {schedule.length === 0 && (
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-surface-container border border-primary-container/20 p-6">
+          <div>
+            <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-1">[ VOLS PARLAR? ]</p>
+            <p class="font-body text-body-md text-on-surface-variant">El CFP és obert. La teva xerrada pot omplir un d'aquests slots.</p>
+          </div>
+          <CTAButton href={cfpPath} variant="outline" class="shrink-0">
+            ENVIA LA TEVA PROPOSTA →
+          </CTAButton>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       AFTER_HOURS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low border-t border-outline-variant" aria-labelledby="afterhours-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="AFTER_HOURS" title="NETWORKING & SOCIAL" />
+
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div class="space-y-5">
+          <p class="font-body text-body-lg text-on-surface leading-relaxed">
+            GeeksCAT Conf no acaba quan s'apaguen els projectors. L'after party és part essencial de l'experiència: el moment on es consoliden les connexions, neixen els projectes i es continuen les converses que han quedat a mitges.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Cerveses, pizza i geeks. La recepta clàssica. La localització exacta i els detalls s'anunciaran quan es confirmi la data de la conferència.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <article class="bg-surface-container border border-outline-variant p-6 flex gap-5 items-start">
+            <span class="font-mono text-headline-md text-primary-container/40 select-none" aria-hidden="true">01</span>
+            <div>
+              <p class="font-display text-headline-md uppercase tracking-tight mb-1">AFTERPARTY OFICIAL</p>
+              <p class="font-body text-body-md text-on-surface-variant">Espai proper a la conferència. Begudes, menjar i networking sense agenda ni pantalles.</p>
+              <p class="font-mono text-code-sm text-on-surface-variant/40 mt-2">HORA & LLOC: [ TBA ]</p>
+            </div>
+          </article>
+
+          <article class="bg-surface-container border border-outline-variant p-6 flex gap-5 items-start">
+            <span class="font-mono text-headline-md text-primary-container/40 select-none" aria-hidden="true">02</span>
+            <div>
+              <p class="font-display text-headline-md uppercase tracking-tight mb-1">OPEN HACK</p>
+              <p class="font-body text-body-md text-on-surface-variant">Sessió informal de hacking i projectes en obert. Porta el teu portàtil si tens alguna cosa en construcció.</p>
+              <p class="font-mono text-code-sm text-on-surface-variant/40 mt-2">HORA & LLOC: [ TBA ]</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       VENUE GUIDE
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-labelledby="venue-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="COM ARRIBAR" title="VENUE" />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-surface-container border border-outline-variant p-6">
+          <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-4">// TRANSPORT</p>
+          <p class="font-display text-headline-md uppercase tracking-tight mb-3">TRANSPORT PÚBLIC</p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Accés en tren i bus des de les principals ciutats de Catalunya. Detalls quan es confirmi la localització.
+          </p>
+          <p class="font-mono text-code-sm text-on-surface-variant/40 mt-4">STATUS: [ TBA ]</p>
+        </div>
+
+        <div class="bg-surface-container border border-outline-variant p-6">
+          <p class="font-mono text-code-sm text-secondary-container uppercase tracking-widest mb-4">// APARCAMENT</p>
+          <p class="font-display text-headline-md uppercase tracking-tight mb-3">VEHICLE PRIVAT</p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Aparcament públic proper al recinte. Fomentem l'ús del transport compartit — coordineu-vos al canal de la comunitat.
+          </p>
+          <p class="font-mono text-code-sm text-on-surface-variant/40 mt-4">STATUS: [ TBA ]</p>
+        </div>
+
+        <div class="bg-surface-container border border-outline-variant p-6">
+          <p class="font-mono text-code-sm text-on-surface-variant uppercase tracking-widest mb-4">// ALLOTJAMENT</p>
+          <p class="font-display text-headline-md uppercase tracking-tight mb-3">ON DORMIR</p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Recomanarem hotels i allotjaments propers amb descomptes per a assistents quan es confirmi la data.
+          </p>
+          <p class="font-mono text-code-sm text-on-surface-variant/40 mt-4">STATUS: [ TBA ]</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       STATUS BAR
+  ═══════════════════════════════════════════════ -->
+  <aside class="border-t border-outline-variant bg-surface-container-lowest" aria-label="Estat de l'agenda">
+    <div class="max-w-5xl mx-auto px-6 py-6">
+      <dl class="flex flex-wrap gap-x-10 gap-y-3">
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">DATA</dt>
+          <dd class="font-mono text-code-sm text-on-surface">[ TBA ]</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">LOCATION</dt>
+          <dd class="font-mono text-code-sm text-on-surface">[ TBA ]</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">TRACKS</dt>
+          <dd class="font-mono text-code-sm text-on-surface">04</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">TALKS</dt>
+          <dd class="font-mono text-code-sm text-on-surface">
+            {talks.length > 0 ? talks.length : '[ TBA ]'}
+          </dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">CFP</dt>
+          <dd class="font-mono text-code-sm text-primary-container">[ OPEN ]</dd>
+        </div>
+      </dl>
+    </div>
+  </aside>
+
+</BaseLayout>

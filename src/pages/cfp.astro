@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getLocale, useTranslations } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const tracks = [
+  {
+    index: '01_',
+    name: 'Open Source',
+    accent: 'primary-container',
+    topics: ['Contribucions a projectes', 'Governança de comunitats', 'Llicències i sostenibilitat', 'Casos d\'èxit locals'],
+  },
+  {
+    index: '02_',
+    name: 'DevOps & SRE',
+    accent: 'secondary-container',
+    topics: ['Infraestructura com a codi', 'Observabilitat i SLOs', 'CI/CD i GitOps', 'Kubernetes i plataformes'],
+  },
+  {
+    index: '03_',
+    name: 'AI & Data',
+    accent: 'primary-fixed-dim',
+    topics: ['LLMs en producció', 'MLOps i pipelines', 'IA responsable', 'Casos d\'ús reals'],
+  },
+  {
+    index: '04_',
+    name: 'Web Dev',
+    accent: 'secondary-fixed-dim',
+    topics: ['Arquitectures modernes', 'Rendiment i Core Web Vitals', 'Accessibilitat', 'Seguretat web'],
+  },
+] as const;
+
+const formats = [
+  { label: 'XERRADA', duration: '40 min', description: 'Format principal. Xerrada tècnica completa amb temps per a preguntes.' },
+  { label: 'LIGHTNING TALK', duration: '10 min', description: 'Presentació ràpida d\'una idea, eina o experiment. Alt impacte, baix temps.' },
+  { label: 'TALLER', duration: '90 min', description: 'Sessió pràctica amb participants. Requereix proposta detallada.' },
+] as const;
+
+const gratificacions = [
+  'Entrada gratuïta a la conferència (tots els tracks)',
+  'Cobertura de desplaçament per a speakers de fora de Catalunya (fins a un límit)',
+  'Allotjament per a speakers de fora de la comarca (nit anterior i/o posterior)',
+  'Accés a la zona de speakers amb networking exclusiu',
+  'Gravació professional de la teva xerrada i distribució en obert',
+  'Visibilitat en web, programa i xarxes socials de GeeksCAT',
+] as const;
+---
+
+<BaseLayout
+  title="02_CFP"
+  description="Presenta la teva xerrada a GeeksCAT Conf 2026. CFP obert fins al 31 d'agost de 2026."
+>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <header class="relative pt-32 pb-20 px-6 overflow-hidden">
+    <div class="absolute inset-0 grid-lines opacity-10 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-5xl mx-auto relative z-10">
+      <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-6">
+        [ CFP_STATUS: OPEN ]
+      </span>
+      <h1 class="font-display uppercase tracking-tighter mb-4 leading-none"
+          style="font-size: clamp(2.5rem, 8vw, 5rem)">
+        {t('cfp.headline')}
+      </h1>
+      <p class="font-body text-body-lg text-on-surface-variant mb-8 max-w-xl">
+        Tens un projecte, una experiència o una idea que val la pena compartir? Presenta la teva xerrada a GeeksCAT Conf 2026.
+      </p>
+      <div class="flex flex-wrap gap-4 items-center">
+        <span class="font-mono text-code-sm border-2 border-primary-container text-primary-container px-5 py-2">
+          DEADLINE: {t('cfp.deadline')}
+        </span>
+        <span class="font-mono text-code-sm text-on-surface-variant border border-outline-variant px-5 py-2">
+          IDIOMES: CAT / ENG / ESP
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       PRESENTA LA TEVA XERRADA
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low border-t border-outline-variant" aria-labelledby="present-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="QUÈ BUSQUEM" title="PRESENTA LA TEVA XERRADA" />
+
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div class="space-y-5">
+          <p class="font-body text-body-lg text-on-surface leading-relaxed">
+            Busquem xerrades tècniques de qualitat, amb profunditat real i experiència pràctica. No importa si és la teva primera vegada presentant en públic — importa que tinguis alguna cosa rellevant per explicar.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Valorem especialment les xerrades basades en experiències reals: projectes que has implementat, errors que has patit, solucions que has trobat. Les teories sense proves no ens interessen tant com les trinxeres.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Totes les xerrades acceptades es gravaran i es publicaran en obert després de l'event, amplificant el teu impacte més enllà del dia de la conferència.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-4">[ CRITERIS ]</p>
+            <ul class="space-y-3 list-none">
+              <li class="flex gap-3 items-start">
+                <span class="text-primary-container font-mono mt-0.5 shrink-0" aria-hidden="true">→</span>
+                <span class="font-body text-body-md text-on-surface-variant"><strong class="text-on-surface font-display uppercase tracking-tight">Profunditat</strong> — contingut tècnic real, no slides de màrqueting</span>
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-primary-container font-mono mt-0.5 shrink-0" aria-hidden="true">→</span>
+                <span class="font-body text-body-md text-on-surface-variant"><strong class="text-on-surface font-display uppercase tracking-tight">Experiència</strong> — basat en el que has viscut, provat o construït</span>
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-primary-container font-mono mt-0.5 shrink-0" aria-hidden="true">→</span>
+                <span class="font-body text-body-md text-on-surface-variant"><strong class="text-on-surface font-display uppercase tracking-tight">Cultura Geek</strong> — passió per la tecnologia per sobre dels interessos comercials</span>
+              </li>
+              <li class="flex gap-3 items-start">
+                <span class="text-primary-container font-mono mt-0.5 shrink-0" aria-hidden="true">→</span>
+                <span class="font-body text-body-md text-on-surface-variant"><strong class="text-on-surface font-display uppercase tracking-tight">Diversitat</strong> — perspectives diverses, temàtiques variades, nivells mixtos</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="border-t border-outline-variant pt-6">
+            <p class="font-mono text-code-sm text-on-surface-variant/60 uppercase tracking-widest mb-2">// NO ACCEPTEM</p>
+            <p class="font-body text-body-md text-on-surface-variant/60">Presentacions de productes comercials, demos de vendes o contingut sense base tècnica.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FORMATS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-labelledby="formats-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="FORMATS" title="TRIA EL TEU FORMAT" />
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {formats.map(({ label, duration, description }) => (
+          <div class="bg-surface-container border border-outline-variant p-8 flex flex-col gap-4">
+            <div>
+              <p class="font-display text-headline-md uppercase tracking-tight mb-1">{label}</p>
+              <span class="font-mono text-code-sm text-primary-container border border-primary-container/30 px-3 py-1 inline-block">
+                {duration}
+              </span>
+            </div>
+            <p class="font-body text-body-md text-on-surface-variant leading-relaxed flex-1">{description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       TRACKS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low" aria-labelledby="tracks-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="ÀREES TEMÀTIQUES" title="TRACKS DISPONIBLES" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {tracks.map(({ index, name, accent, topics }) => (
+          <article class={`bg-surface-container border-l-4 border-${accent} p-8`}>
+            <p class={`font-mono text-code-sm text-${accent} uppercase tracking-widest mb-4`}>{index}TRACK</p>
+            <h3 class="font-display text-headline-md uppercase tracking-tight mb-5">{name}</h3>
+            <ul class="space-y-2 list-none">
+              {topics.map((topic) => (
+                <li class="flex gap-3 items-start">
+                  <span class={`text-${accent} font-mono text-code-sm mt-0.5 shrink-0`} aria-hidden="true">·</span>
+                  <span class="font-body text-body-md text-on-surface-variant">{topic}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <p class="font-body text-body-md text-on-surface-variant mt-8 text-center">
+        No encaixa en cap track? Proposa'ns-ho igualment — la selecció és oberta a temes que no hem previst.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       GRATIFICACIONS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-labelledby="gratificacions-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="PER ALS SPEAKERS" title="GRATIFICACIONS" />
+
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <ul class="space-y-4 list-none">
+          {gratificacions.map((item) => (
+            <li class="flex gap-4 items-start border-b border-outline-variant/40 pb-4 last:border-0 last:pb-0">
+              <span class="text-secondary-container font-mono text-code-sm mt-0.5 shrink-0" aria-hidden="true">→</span>
+              <span class="font-body text-body-md text-on-surface leading-relaxed">{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="bg-surface-container border border-outline-variant p-8 space-y-6">
+          <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest">[ INFORMACIÓ PRÀCTICA ]</p>
+          <div class="space-y-4">
+            <div class="flex justify-between items-start border-b border-outline-variant/40 pb-3">
+              <span class="font-mono text-code-sm text-on-surface-variant uppercase">Deadline CFP</span>
+              <span class="font-mono text-code-sm text-primary-container">{t('cfp.deadline')}</span>
+            </div>
+            <div class="flex justify-between items-start border-b border-outline-variant/40 pb-3">
+              <span class="font-mono text-code-sm text-on-surface-variant uppercase">Notificació</span>
+              <span class="font-mono text-code-sm text-on-surface">[ TBA ]</span>
+            </div>
+            <div class="flex justify-between items-start border-b border-outline-variant/40 pb-3">
+              <span class="font-mono text-code-sm text-on-surface-variant uppercase">Data conf</span>
+              <span class="font-mono text-code-sm text-on-surface">[ TBA ]</span>
+            </div>
+            <div class="flex justify-between items-start border-b border-outline-variant/40 pb-3">
+              <span class="font-mono text-code-sm text-on-surface-variant uppercase">Idiomes</span>
+              <span class="font-mono text-code-sm text-on-surface">CAT / ENG / ESP</span>
+            </div>
+            <div class="flex justify-between items-start">
+              <span class="font-mono text-code-sm text-on-surface-variant uppercase">Durades</span>
+              <span class="font-mono text-code-sm text-on-surface">10 / 40 / 90 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA — SUBMIT TALK
+  ═══════════════════════════════════════════════ -->
+  <section class="py-24 px-6 bg-surface-container-low relative overflow-hidden border-t border-outline-variant" id="submit">
+    <div class="absolute inset-0 terminal-grid opacity-5 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-3xl mx-auto relative z-10 text-center">
+      <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-6">[ EXECUTA_CFP ]</p>
+      <h2 class="font-display text-headline-xl uppercase tracking-tighter mb-6 leading-none terminal-cursor">
+        {t('cfp.cta')}
+      </h2>
+      <p class="font-body text-body-lg text-on-surface-variant mb-10 max-w-xl mx-auto leading-relaxed">
+        Envia'ns el títol, una descripció de 300–500 paraules i el format que vols. Et respondrem en un termini de 2 setmanes.
+      </p>
+      <CTAButton
+        href={`mailto:cfp@geekscat.cat?subject=[CFP%202026]%20Proposta%20de%20xerrada&body=T%C3%ADtol%3A%20%0AFormat%3A%20Xerrada%20%2F%20Lightning%20Talk%20%2F%20Taller%0ATrack%3A%20%0ADescripci%C3%B3%3A%20%0A`}
+        external
+      >
+        &gt;_ ENVIA LA TEVA PROPOSTA
+      </CTAButton>
+      <p class="font-mono text-code-sm text-on-surface-variant/40 mt-10">
+        cfp@geekscat.cat // DEADLINE: {t('cfp.deadline')}
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>

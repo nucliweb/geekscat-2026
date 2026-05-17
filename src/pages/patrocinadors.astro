@@ -1,0 +1,270 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getLocale, useTranslations } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const tiers = [
+  {
+    id: 'pb',
+    label: 'PETABYTE',
+    index: '01_',
+    slots: 1,
+    accent: 'primary-container',
+    description: 'Màxima visibilitat. Keynote slot, stand exclusiu i presència destacada en tots els canals.',
+  },
+  {
+    id: 'tb',
+    label: 'TERABYTE',
+    index: '02_',
+    slots: 2,
+    accent: 'primary-fixed-dim',
+    description: 'Alta visibilitat. Espai en el programa, logo en tots els materials i mencions especials.',
+  },
+  {
+    id: 'gb',
+    label: 'GIGABYTE',
+    index: '03_',
+    slots: 4,
+    accent: 'on-surface-variant',
+    description: 'Visibilitat estàndard. Logo en web, programa i xarxes socials.',
+  },
+  {
+    id: 'mb',
+    label: 'MEGABYTE',
+    index: '04_',
+    slots: 6,
+    accent: 'outline',
+    description: 'Presència bàsica. Logo en web i materials impresos.',
+  },
+] as const;
+---
+
+<BaseLayout
+  title="05_PATROCINADORS"
+  description="Patrocina GeeksCAT Conf 2026, la conferència tècnica de referència de Catalunya."
+>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <header class="relative pt-32 pb-16 px-6 border-b border-outline-variant overflow-hidden">
+    <div class="absolute inset-0 grid-lines opacity-10 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-5xl mx-auto relative z-10">
+      <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-6">
+        [ INIT_SPONSOR_PROTOCOL ]
+      </span>
+      <h1 class="font-display text-headline-xl uppercase tracking-tighter mb-4 leading-none">
+        {t('sponsors.title')}
+      </h1>
+      <p class="font-body text-body-lg text-on-surface-variant max-w-2xl">
+        Connecta la teva marca amb la comunitat geek més activa de Catalunya. Patrocinar GeeksCAT Conf és apostar pel talent tècnic local.
+      </p>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       PITCH / INTRO
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low" aria-labelledby="pitch-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="PER QUÈ PATROCINAR" title="ARRIBA DIRECTAMENT ALS TEUS USUARIS" />
+
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div class="space-y-5">
+          <p class="font-body text-body-lg text-on-surface leading-relaxed">
+            GeeksCAT Conf 2026 reunirà centenars de professionals tècnics: enginyers de software, administradors de sistemes, cientıfics de dades, estudiants avançats i responsables de tecnologia de tot Catalunya.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            No és una audiència genèrica. Són les persones que avaluen les teves eines, recomanen les teves plataformes i prenen decisions tècniques reals. Parla'ls directament, en un entorn de confiança i sense soroll.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            El patrocini de GeeksCAT Conf va més enllà de posar un logo. És formar part d'una comunitat que valora l'autenticitat, el coneixement tècnic i el compromís amb l'ecosistema local.
+          </p>
+        </div>
+
+        <ul class="space-y-4 list-none">
+          <li class="flex gap-4 items-start">
+            <span class="text-primary-container font-mono text-code-sm mt-1 shrink-0" aria-hidden="true">→</span>
+            <div>
+              <p class="font-display text-headline-md uppercase tracking-tight mb-1">VISIBILITAT REAL</p>
+              <p class="font-body text-body-md text-on-surface-variant">Presència en web, xarxes socials, materials impresos i escenari durant tot l'event.</p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start">
+            <span class="text-primary-container font-mono text-code-sm mt-1 shrink-0" aria-hidden="true">→</span>
+            <div>
+              <p class="font-display text-headline-md uppercase tracking-tight mb-1">ACCÉS AL TALENT</p>
+              <p class="font-body text-body-md text-on-surface-variant">Connecta amb professionals que busquen nous reptes, eines i oportunitats.</p>
+            </div>
+          </li>
+          <li class="flex gap-4 items-start">
+            <span class="text-primary-container font-mono text-code-sm mt-1 shrink-0" aria-hidden="true">→</span>
+            <div>
+              <p class="font-display text-headline-md uppercase tracking-tight mb-1">IMPACTE DE COMUNITAT</p>
+              <p class="font-body text-body-md text-on-surface-variant">El teu patrocini ajuda a mantenir les entrades assequibles i la conferència accessible per a tothom.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       TIERS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-labelledby="tiers-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="NIVELLS DE PATROCINI" title="TRIA EL TEU NIVELL" />
+
+      <div class="space-y-16">
+
+        <!-- PETABYTE — 1 slot, màxima prominència -->
+        <div>
+          <div class="flex items-baseline gap-4 mb-6">
+            <span class="font-mono text-code-sm text-primary-container">{tiers[0].index}</span>
+            <h2 class="font-display text-headline-lg uppercase tracking-tighter text-primary-container">[ {tiers[0].label} ]</h2>
+          </div>
+          <p class="font-body text-body-md text-on-surface-variant mb-6 max-w-xl">{tiers[0].description}</p>
+          <div class="border-2 border-primary-container neon-glow p-12 flex items-center justify-center min-h-40 bg-surface-container">
+            <div class="text-center">
+              <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-2">SLOT DISPONIBLE</p>
+              <p class="font-display text-headline-md text-on-surface-variant uppercase tracking-tight">[ LOGO_TBA ]</p>
+              <p class="font-mono text-code-sm text-primary-container/50 mt-3">STATUS: OPEN</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TERABYTE — 2 slots -->
+        <div>
+          <div class="flex items-baseline gap-4 mb-6">
+            <span class="font-mono text-code-sm text-primary-fixed-dim">{tiers[1].index}</span>
+            <h2 class="font-display text-headline-lg uppercase tracking-tighter text-primary-fixed-dim">[ {tiers[1].label} ]</h2>
+          </div>
+          <p class="font-body text-body-md text-on-surface-variant mb-6 max-w-xl">{tiers[1].description}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div class="border border-primary-fixed-dim/40 p-8 flex items-center justify-center min-h-32 bg-surface-container hover:border-primary-fixed-dim transition-colors duration-200">
+                <div class="text-center">
+                  <p class="font-mono text-code-sm text-primary-fixed-dim/60 uppercase tracking-widest mb-1">SLOT {String(i + 1).padStart(2, '0')}</p>
+                  <p class="font-display text-headline-md text-on-surface-variant/60 uppercase tracking-tight">[ LOGO_TBA ]</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- GIGABYTE — 4 slots -->
+        <div>
+          <div class="flex items-baseline gap-4 mb-6">
+            <span class="font-mono text-code-sm text-on-surface-variant">{tiers[2].index}</span>
+            <h2 class="font-display text-headline-lg uppercase tracking-tighter">[ {tiers[2].label} ]</h2>
+          </div>
+          <p class="font-body text-body-md text-on-surface-variant mb-6 max-w-xl">{tiers[2].description}</p>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div class="border border-outline-variant p-6 flex items-center justify-center min-h-28 bg-surface-container hover:border-on-surface-variant transition-colors duration-200">
+                <div class="text-center">
+                  <p class="font-mono text-code-sm text-outline uppercase tracking-widest mb-1">SLOT {String(i + 1).padStart(2, '0')}</p>
+                  <p class="font-display text-label-md text-on-surface-variant/50 uppercase tracking-tight">[ LOGO_TBA ]</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- MEGABYTE — 6 slots -->
+        <div>
+          <div class="flex items-baseline gap-4 mb-6">
+            <span class="font-mono text-code-sm text-outline">{tiers[3].index}</span>
+            <h2 class="font-display text-headline-lg uppercase tracking-tighter text-on-surface-variant">[ {tiers[3].label} ]</h2>
+          </div>
+          <p class="font-body text-body-md text-on-surface-variant mb-6 max-w-xl">{tiers[3].description}</p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div class="border border-outline-variant/60 p-4 flex items-center justify-center min-h-20 bg-surface-container hover:border-outline-variant transition-colors duration-200">
+                <div class="text-center">
+                  <p class="font-mono text-code-sm text-outline/60 uppercase tracking-widest text-xs mb-0.5">S{String(i + 1).padStart(2, '0')}</p>
+                  <p class="font-display text-label-md text-on-surface-variant/40 uppercase tracking-tight text-xs">TBA</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       COL·LABORADORS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low border-t border-outline-variant" aria-labelledby="collaborators-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag={t('sponsors.collaborators')} title="SUPORT INSTITUCIONAL" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <!-- Diputació de Girona -->
+        <div class="bg-surface-container border border-outline-variant p-8 flex flex-col gap-4">
+          <div class="w-full aspect-video border border-outline-variant/60 flex items-center justify-center bg-surface-container-high">
+            <span class="font-mono text-code-sm text-on-surface-variant/40">LOGO_TBA</span>
+          </div>
+          <div>
+            <p class="font-display text-headline-md uppercase tracking-tight mb-1">Diputació de Girona</p>
+            <p class="font-mono text-code-sm text-on-surface-variant uppercase tracking-widest">COL·LABORADOR INSTITUCIONAL</p>
+            <p class="font-body text-body-md text-on-surface-variant mt-3">Suport institucional al foment de la cultura digital i tecnològica al territori de Girona.</p>
+          </div>
+        </div>
+
+        <!-- Slot TBA 2 -->
+        <div class="bg-surface-container border border-outline-variant/40 border-dashed p-8 flex items-center justify-center min-h-48">
+          <div class="text-center">
+            <p class="font-mono text-code-sm text-on-surface-variant/40 uppercase tracking-widest mb-2">[ SLOT DISPONIBLE ]</p>
+            <p class="font-body text-body-md text-on-surface-variant/30">Entitat o institució col·laboradora</p>
+          </div>
+        </div>
+
+        <!-- Slot TBA 3 -->
+        <div class="bg-surface-container border border-outline-variant/40 border-dashed p-8 flex items-center justify-center min-h-48">
+          <div class="text-center">
+            <p class="font-mono text-code-sm text-on-surface-variant/40 uppercase tracking-widest mb-2">[ SLOT DISPONIBLE ]</p>
+            <p class="font-body text-body-md text-on-surface-variant/30">Entitat o institució col·laboradora</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CTA — VOLS SER PATROCINADOR?
+  ═══════════════════════════════════════════════ -->
+  <section class="py-24 px-6 relative overflow-hidden" id="patrocinar" aria-labelledby="cta-sponsors-heading">
+    <div class="absolute inset-0 terminal-grid opacity-5 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-3xl mx-auto relative z-10 text-center">
+      <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-6">[ EXECUTA_PATROCINI ]</p>
+      <h2 id="cta-sponsors-heading" class="font-display text-headline-xl uppercase tracking-tighter mb-6 leading-none">
+        {t('sponsors.become')}
+      </h2>
+      <p class="font-body text-body-lg text-on-surface-variant mb-10 max-w-xl mx-auto leading-relaxed">
+        Escriu-nos per rebre el dossier de patrocini complet amb tots els detalls, beneficis i preus de cada nivell. Respondrem en menys de 48 hores.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <CTAButton href="mailto:patrocinis@geekscat.cat?subject=[PATROCINI%202026]%20Interessat%20en%20patrocinar%20GeeksCAT%20Conf" external>
+          {t('sponsors.cta.contact')}
+        </CTAButton>
+        <CTAButton href="#" variant="outline">
+          {t('sponsors.cta.dossier')}
+        </CTAButton>
+      </div>
+      <p class="font-mono text-code-sm text-on-surface-variant/40 mt-10">
+        patrocinis@geekscat.cat // RESPONSE_TIME &lt; 48h
+      </p>
+    </div>
+  </section>
+
+</BaseLayout>

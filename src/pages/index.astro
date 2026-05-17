@@ -1,17 +1,372 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getLocale, useTranslations, localizedPath } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const agendaPath = localizedPath('/agenda', locale);
+const cfpPath = localizedPath('/cfp', locale);
 ---
 
 <BaseLayout title="00_GEEKSCAT CONF 2026" description="La conferència de geeks per a geeks de Catalunya. 2026.">
-  <main class="pt-16 min-h-dvh flex items-center justify-center relative overflow-hidden">
-    <div class="absolute inset-0 grid-lines opacity-20 pointer-events-none"></div>
-    <div class="text-center relative z-10 px-6">
-      <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-4">
-        [ INIT_SYSTEM_ROOT ]
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="relative pt-32 pb-24 px-6 overflow-hidden flex flex-col items-center justify-center min-h-dvh">
+    <div class="absolute inset-0 grid-lines opacity-10 pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto w-full text-center">
+      <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-8">
+        {t('hero.badge')}
       </span>
-      <p class="font-display text-headline-md text-on-surface uppercase tracking-tighter terminal-cursor">
-        CARREGANT_GEEKSCAT_CONF
+
+      <h1 class="font-display uppercase tracking-tighter mb-6 leading-none"
+          style="font-size: clamp(2.5rem, 8vw, 5rem)">
+        GEEKSCAT_CONF_<span class="text-primary-container terminal-cursor">2026</span>
+      </h1>
+
+      <p class="font-body text-body-lg text-on-surface-variant mb-10 max-w-xl mx-auto">
+        {t('hero.tagline')}
+      </p>
+
+      <div class="flex gap-4 justify-center mb-12 flex-wrap" role="list" aria-label="Informació de l'esdeveniment">
+        <span role="listitem" class="font-mono text-code-sm border border-outline-variant text-on-surface-variant px-4 py-2">
+          DATA: {t('hero.date')}
+        </span>
+        <span role="listitem" class="font-mono text-code-sm border border-outline-variant text-on-surface-variant px-4 py-2">
+          LLOC: {t('hero.venue')}
+        </span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <CTAButton href="#tickets">{t('hero.cta.ticket')}</CTAButton>
+        <CTAButton href={agendaPath} variant="outline">{t('hero.cta.agenda')}</CTAButton>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-code-sm text-on-surface-variant opacity-40 select-none" aria-hidden="true">
+      SCROLL_DOWN //
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       01_SOBRE LA CONF
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low" id="sobre" aria-labelledby="sobre-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="01_SOBRE LA CONF" title="LA CONFERÈNCIA TÈCNICA DE CATALUNYA" />
+
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div class="space-y-5">
+          <p class="font-body text-body-lg text-on-surface leading-relaxed">
+            GeeksCAT Conf és la conferència tècnica de referència per a la comunitat geek de Catalunya. Un espai creat per i per a professionals de la tecnologia que volen aprendre, compartir i connectar amb d'altres persones apassionades per la informàtica.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Cada edició reuneix centenars de geeks, enginyers i hackers en un entorn de debat obert, coneixement pràctic i cultura tecnològica sense filtres. Aquí no es ve a vendre — es ve a aprendre.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            La conferència abasta temes que van des de les infraestructures i DevOps fins a la intel·ligència artificial, el desenvolupament web i el programari lliure, sempre amb profunditat tècnica i sense presentacions comercials.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            GeeksCAT Conf és organitzada per la comunitat, per a la comunitat. L'accés és obert i les entrades es mantenen a un preu accessible perquè ningú es quedi fora per motius econòmics.
+          </p>
+        </div>
+
+        <ul class="space-y-4 list-none">
+          <li class="border-l-2 border-primary-container pl-6 py-2">
+            <p class="font-mono text-code-sm text-primary-container uppercase tracking-wider mb-1">// 01</p>
+            <p class="font-display text-headline-md uppercase tracking-tight">100% DIRIGIT PER COMUNITAT</p>
+            <p class="font-body text-body-md text-on-surface-variant mt-2">Organitzat i finançat per voluntaris i la comunitat geek, sense ànim de lucre.</p>
+          </li>
+          <li class="border-l-2 border-primary-container pl-6 py-2">
+            <p class="font-mono text-code-sm text-primary-container uppercase tracking-wider mb-1">// 02</p>
+            <p class="font-display text-headline-md uppercase tracking-tight">100% TÈCNIC</p>
+            <p class="font-body text-body-md text-on-surface-variant mt-2">Contingut de profunditat real. Zero xerrades de vendes. Zero buzzwords buits.</p>
+          </li>
+          <li class="border-l-2 border-primary-container pl-6 py-2">
+            <p class="font-mono text-code-sm text-primary-container uppercase tracking-wider mb-1">// 03</p>
+            <p class="font-display text-headline-md uppercase tracking-tight">100% OBERT</p>
+            <p class="font-body text-body-md text-on-surface-variant mt-2">CFP obert, codi de conducta, entrades accessibles i espai inclusiu per a tothom.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       BENTO GRID
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-label="Informació general sobre GeeksCAT Conf">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+        <!-- Historia — col-8 -->
+        <article class="md:col-span-8 bg-surface-container border border-outline-variant p-8 relative overflow-hidden">
+          <span class="absolute top-0 right-0 font-mono text-code-sm text-primary-container/20 p-4 select-none" aria-hidden="true">01_HISTORY.LOG</span>
+          <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-4">[ HISTORIA ]</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-4">
+            D'UNA FESTA DE CODI<br/>A UNA CONFERÈNCIA TÈCNICA
+          </h3>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            El 2020, un grup de geeks de Girona va organitzar la primera Festa Open Source: un esdeveniment informal, un espai per compartir projectes i idees. Any rere any va créixer. El 2024 va arribar el salt qualitatiu: GeeksCAT Conf, una conferència tècnica de nivell amb tracks especialitzats, speakers de referència i centenars d'assistents de tot Catalunya.
+          </p>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed mt-3">
+            El 2026 és la nostra edició més ambiciosa fins ara.
+          </p>
+        </article>
+
+        <!-- Activitats — col-4 -->
+        <article class="md:col-span-4 bg-surface-container-high border border-primary-container/30 p-8 neon-glow">
+          <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-4">[ ACTIVITATS ]</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-6">CONF_2026</h3>
+          <ul class="space-y-3" aria-label="Activitats de la conferència">
+            <li class="flex items-center gap-3 font-mono text-code-sm text-on-surface-variant">
+              <span class="text-primary-container" aria-hidden="true">→</span> 4 tracks tècnics
+            </li>
+            <li class="flex items-center gap-3 font-mono text-code-sm text-on-surface-variant">
+              <span class="text-primary-container" aria-hidden="true">→</span> Keynotes
+            </li>
+            <li class="flex items-center gap-3 font-mono text-code-sm text-on-surface-variant">
+              <span class="text-primary-container" aria-hidden="true">→</span> Tallers pràctics
+            </li>
+            <li class="flex items-center gap-3 font-mono text-code-sm text-on-surface-variant">
+              <span class="text-primary-container" aria-hidden="true">→</span> Lightning talks
+            </li>
+            <li class="flex items-center gap-3 font-mono text-code-sm text-on-surface-variant">
+              <span class="text-primary-container" aria-hidden="true">→</span> Afterparty geek
+            </li>
+          </ul>
+          <div class="mt-6 pt-4 border-t border-outline-variant">
+            <span class="font-mono text-code-sm text-primary-container">STATUS: COMPILING...</span>
+          </div>
+        </article>
+
+        <!-- Missió — col-4 -->
+        <article class="md:col-span-4 bg-surface-container border border-outline-variant p-8">
+          <p class="font-mono text-code-sm text-secondary-container uppercase tracking-widest mb-4">[ MISSIÓ ]</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-4">
+            DEMOCRATITZAR EL CONEIXEMENT TÈCNIC
+          </h3>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Fer accessible el millor coneixement tècnic a tota la comunitat geek catalana, sense barreres econòmiques ni corporatives.
+          </p>
+        </article>
+
+        <!-- Valors — col-8 -->
+        <article class="md:col-span-8 bg-surface-container border border-outline-variant p-8 relative overflow-hidden">
+          <span class="absolute top-0 right-0 font-mono text-code-sm text-secondary-container/20 p-4 select-none" aria-hidden="true">VALUES.CFG</span>
+          <p class="font-mono text-code-sm text-secondary-container uppercase tracking-widest mb-4">[ VALORS ]</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-6">EL QUE ENS FA GEEKS</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <p class="font-mono text-code-sm text-secondary-container mb-2">// CURIOSITAT</p>
+              <p class="font-body text-body-md text-on-surface-variant">Explorar sense por. Aprendre sempre. Qüestionar-ho tot.</p>
+            </div>
+            <div>
+              <p class="font-mono text-code-sm text-secondary-container mb-2">// COMPARTIR</p>
+              <p class="font-body text-body-md text-on-surface-variant">Open source d'idees. El coneixement creix quan es comparteix.</p>
+            </div>
+            <div>
+              <p class="font-mono text-code-sm text-secondary-container mb-2">// COMUNITAT</p>
+              <p class="font-body text-body-md text-on-surface-variant">Junts som més forts. La xarxa és la nostra millor infraestructura.</p>
+            </div>
+            <div>
+              <p class="font-mono text-code-sm text-secondary-container mb-2">// PROFUNDITAT</p>
+              <p class="font-body text-body-md text-on-surface-variant">Zero superficialitat. Contingut de qualitat o res.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       MANIFEST
+  ═══════════════════════════════════════════════ -->
+  <section class="py-24 px-6 bg-surface-container-low relative overflow-hidden" aria-label="Manifest de GeeksCAT">
+    <div class="absolute inset-0 terminal-grid opacity-5 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-4xl mx-auto relative z-10 text-center">
+      <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-8">[ MANIFEST ]</p>
+      <blockquote class="font-display uppercase tracking-tighter leading-tight mb-8 text-on-surface"
+                  style="font-size: clamp(1.5rem, 4vw, 2.5rem)">
+        <p class="mb-4">NO SOM NOMÉS UNA CONFERÈNCIA DE CODI.</p>
+        <p class="mb-4">SOM UNA TRIBU DIGITAL.</p>
+        <p class="text-primary-container">
+          UNA COMUNITAT QUE CONSTRUEIX,<br/>APRÈN I AVANÇA JUNTA.
+        </p>
+      </blockquote>
+      <p class="font-body text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed mb-10">
+        Cada xerrada és un regal de coneixement. Cada pregunta, una oportunitat d'aprendre. Cada connexió, la llavor d'un nou projecte. GeeksCAT Conf no és un producte. És una declaració d'intencions.
+      </p>
+      <p class="font-mono text-code-sm text-on-surface-variant opacity-40 select-none" aria-hidden="true">
+        // CORE_DUMP COMPLETE <span class="inline-block w-2 h-3 bg-primary-container ml-1 align-middle"></span>
       </p>
     </div>
-  </main>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       02_KEYNOTE SPEAKERS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" id="ponents" aria-labelledby="speakers-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="02_KEYNOTE_SPEAKERS" title="PONENTS" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <article class="bg-surface-container border border-outline-variant p-6 flex flex-col" aria-label={`Ponent ${i + 1} - Per anunciar`}>
+            <div class="w-full aspect-square bg-surface-container-high border border-outline-variant mb-4 flex items-center justify-center" aria-hidden="true">
+              <span class="font-mono text-code-sm text-on-surface-variant opacity-30">IMG_TBA</span>
+            </div>
+            <p class="font-mono text-code-sm text-primary-container mb-1">
+              SPEAKER_{String(i + 1).padStart(2, '0')}
+            </p>
+            <p class="font-display text-headline-md uppercase tracking-tight">PROPERAMENT</p>
+            <p class="font-body text-body-md text-on-surface-variant mt-2 flex-1 text-sm">[ TBA ]</p>
+            <div class="mt-4 pt-3 border-t border-outline-variant">
+              <span class="font-mono text-code-sm text-on-surface-variant opacity-50">STATUS: PENDING</span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="flex justify-center">
+        <CTAButton href={cfpPath} variant="outline">PRESENTA LA TEVA XERRADA →</CTAButton>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       03_TRACKS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6 bg-surface-container-low" id="tracks" aria-labelledby="tracks-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="03_TRACKS" title="ÀREES TEMÀTIQUES" />
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <article class="bg-surface-container border-l-4 border-primary-container p-8 hover:bg-surface-container-high transition-colors duration-200">
+          <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-4">01_TRACK</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-3">Open Source</h3>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Contribucions, governança, comunitats i projectes de codi obert que estan canviant el món del programari.
+          </p>
+          <p class="mt-6 font-mono text-code-sm text-primary-container/60">CFP OPEN →</p>
+        </article>
+
+        <article class="bg-surface-container border-l-4 border-secondary-container p-8 hover:bg-surface-container-high transition-colors duration-200">
+          <p class="font-mono text-code-sm text-secondary-container uppercase tracking-widest mb-4">02_TRACK</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-3">DevOps & SRE</h3>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Infraestructura com a codi, observabilitat, CI/CD, Kubernetes i les millors pràctiques per a sistemes en producció.
+          </p>
+          <p class="mt-6 font-mono text-code-sm text-secondary-container/60">CFP OPEN →</p>
+        </article>
+
+        <article class="bg-surface-container border-l-4 border-primary-fixed-dim p-8 hover:bg-surface-container-high transition-colors duration-200">
+          <p class="font-mono text-code-sm text-primary-fixed-dim uppercase tracking-widest mb-4">03_TRACK</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-3">AI & Data</h3>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            IA aplicada, LLMs, pipelines de dades, MLOps i casos d'ús reals de machine learning en producció.
+          </p>
+          <p class="mt-6 font-mono text-code-sm text-primary-fixed-dim/60">CFP OPEN →</p>
+        </article>
+
+        <article class="bg-surface-container border-l-4 border-secondary-fixed-dim p-8 hover:bg-surface-container-high transition-colors duration-200">
+          <p class="font-mono text-code-sm text-secondary-fixed-dim uppercase tracking-widest mb-4">04_TRACK</p>
+          <h3 class="font-display text-headline-md uppercase tracking-tight mb-3">Web Dev</h3>
+          <p class="font-body text-body-md text-on-surface-variant leading-relaxed">
+            Arquitectures modernes, rendiment web, accessibilitat, seguretat i el futur de la plataforma web.
+          </p>
+          <p class="mt-6 font-mono text-code-sm text-secondary-fixed-dim/60">CFP OPEN →</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       04_EVOLUCIÓ — Timeline
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" id="evolucio" aria-labelledby="evolucio-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="04_EVOLUCIÓ" title="DE FESTA A CONFERÈNCIA" />
+
+      <div class="relative">
+        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-outline-variant md:-translate-x-px" aria-hidden="true"></div>
+
+        <ol class="space-y-12 list-none">
+
+          <li class="relative flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2 md:pr-16 md:text-right pl-12 md:pl-0 order-2 md:order-1">
+              <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-2">2020</p>
+              <h3 class="font-display text-headline-md uppercase tracking-tight mb-2">FESTA OPEN SOURCE</h3>
+              <p class="font-body text-body-md text-on-surface-variant">Un cop de cap. Un garatge i 40 geeks. La llavor d'una comunitat.</p>
+            </div>
+            <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-8 h-8 bg-surface-container border-2 border-primary-container flex items-center justify-center order-1 md:order-2 z-10" aria-hidden="true">
+              <span class="text-primary-container font-mono text-code-sm">█</span>
+            </div>
+            <div class="md:w-1/2 md:pl-16 order-3 hidden md:block" aria-hidden="true"></div>
+          </li>
+
+          <li class="relative flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2 md:pr-16 order-2 md:order-1 hidden md:block" aria-hidden="true"></div>
+            <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-8 h-8 bg-surface-container border-2 border-outline-variant flex items-center justify-center order-1 md:order-2 z-10" aria-hidden="true">
+              <span class="text-on-surface-variant font-mono text-code-sm">█</span>
+            </div>
+            <div class="md:w-1/2 md:pl-16 pl-12 order-3">
+              <p class="font-mono text-code-sm text-on-surface-variant uppercase tracking-widest mb-2">2022</p>
+              <h3 class="font-display text-headline-md uppercase tracking-tight mb-2">GEEKSCAT REBOOT</h3>
+              <p class="font-body text-body-md text-on-surface-variant">Post-pandèmia. Nova comunitat, nova energia. 150 assistents.</p>
+            </div>
+          </li>
+
+          <li class="relative flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2 md:pr-16 md:text-right pl-12 md:pl-0 order-2 md:order-1">
+              <p class="font-mono text-code-sm text-on-surface-variant uppercase tracking-widest mb-2">2024</p>
+              <h3 class="font-display text-headline-md uppercase tracking-tight mb-2">GEEKSCAT CONF</h3>
+              <p class="font-body text-body-md text-on-surface-variant">Salt qualitatiu. 4 tracks, speakers internacionals, 300+ assistents.</p>
+            </div>
+            <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-8 h-8 bg-surface-container border-2 border-outline-variant flex items-center justify-center order-1 md:order-2 z-10" aria-hidden="true">
+              <span class="text-on-surface-variant font-mono text-code-sm">█</span>
+            </div>
+            <div class="md:w-1/2 md:pl-16 order-3 hidden md:block" aria-hidden="true"></div>
+          </li>
+
+          <li class="relative flex flex-col md:flex-row md:items-center">
+            <div class="md:w-1/2 md:pr-16 order-2 md:order-1 hidden md:block" aria-hidden="true"></div>
+            <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-8 h-8 bg-primary-container neon-glow flex items-center justify-center order-1 md:order-2 z-10" aria-hidden="true">
+              <span class="text-on-primary-fixed font-mono text-code-sm font-bold">█</span>
+            </div>
+            <div class="md:w-1/2 md:pl-16 pl-12 order-3">
+              <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-2">2026</p>
+              <h3 class="font-display text-headline-md uppercase tracking-tight mb-2 text-primary-container">GEEKSCAT_CONF_2026</h3>
+              <p class="font-body text-body-md text-on-surface-variant">
+                La nostra edició més ambiciosa. <span class="text-primary-container font-mono">STATUS: COMPILING...</span>
+              </p>
+            </div>
+          </li>
+
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       DECORATIVE STRIP
+  ═══════════════════════════════════════════════ -->
+  <div class="border-t border-b border-outline-variant" aria-hidden="true">
+    <div class="flex overflow-hidden">
+      {(['HARDWARE', 'SOFTWARE', 'NETWORK', 'COMMUNITY'] as const).map((label) => (
+        <div class="flex-1 min-h-32 bg-surface-container-high border-r border-outline-variant last:border-r-0 flex items-center justify-center">
+          <span class="font-mono text-code-sm text-on-surface-variant opacity-20 uppercase tracking-widest">{label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
 </BaseLayout>

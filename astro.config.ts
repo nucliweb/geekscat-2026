@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   output: 'static',
-  site: 'https://2026.geekscat.org',
+  site: 'https://conf.geeks.cat',
   i18n: {
     defaultLocale: 'ca',
     locales: ['ca', 'en', 'es'],

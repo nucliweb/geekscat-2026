@@ -1,0 +1,219 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getLocale, useTranslations, localizedPath } from '../i18n/utils';
+
+const locale = getLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+
+const cfpPath = localizedPath('/cfp', locale);
+
+const allSpeakers = await getCollection('speakers');
+const speakers = allSpeakers.filter((s) => s.data.locale === locale);
+
+const trackLabels: Record<string, string> = {
+  'open-source': 'Open Source',
+  'devops-sre': 'DevOps & SRE',
+  'ai-data': 'AI & Data',
+  'web-dev': 'Web Dev',
+};
+
+const trackAccents: Record<string, string> = {
+  'open-source': 'primary-container',
+  'devops-sre': 'secondary-container',
+  'ai-data': 'primary-fixed-dim',
+  'web-dev': 'secondary-fixed-dim',
+};
+
+const PLACEHOLDER_COUNT = 8;
+---
+
+<BaseLayout
+  title="03_PONENTS"
+  description="Coneix els speakers de GeeksCAT Conf 2026. Professionals tècnics de referència de Catalunya i arreu."
+>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <header class="relative pt-32 pb-16 px-6 border-b border-outline-variant overflow-hidden">
+    <div class="absolute inset-0 grid-lines opacity-10 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-5xl mx-auto relative z-10">
+      <span class="font-mono text-code-sm text-primary-container uppercase tracking-widest block mb-6">
+        {t('speakers.cfp-open')}
+      </span>
+      <h1 class="font-display uppercase tracking-tighter mb-4 leading-none"
+          style="font-size: clamp(2.5rem, 8vw, 5rem)">
+        {t('speakers.title')}
+      </h1>
+      <p class="font-body text-body-lg text-on-surface-variant max-w-xl">
+        {speakers.length > 0
+          ? `${speakers.length} speakers confirmats. Professionals tècnics que compartiran el seu coneixement a GeeksCAT Conf 2026.`
+          : 'Els speakers de GeeksCAT Conf 2026 s\'anunciaran properament. El CFP és obert — potser ets tu el següent.'}
+      </p>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       GRID DE SPEAKERS
+  ═══════════════════════════════════════════════ -->
+  <section class="py-20 px-6" aria-labelledby="speakers-grid-heading">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeader tag="LINEUP" title="SPEAKERS CONFIRMATS" />
+
+      {speakers.length > 0 ? (
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 list-none">
+          {speakers.map((speaker) => (
+            <li>
+              <article class="bg-surface-container border border-outline-variant flex flex-col h-full group">
+                <!-- Photo -->
+                <div class="w-full aspect-square overflow-hidden bg-surface-container-high border-b border-outline-variant">
+                  {speaker.data.photo ? (
+                    <img
+                      src={speaker.data.photo}
+                      alt={speaker.data.name}
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center" aria-hidden="true">
+                      <span class="font-mono text-code-sm text-on-surface-variant/30">PHOTO_TBA</span>
+                    </div>
+                  )}
+                </div>
+
+                <!-- Info -->
+                <div class="p-6 flex flex-col gap-3 flex-1">
+                  <!-- Track badges -->
+                  {speaker.data.tracks.length > 0 && (
+                    <div class="flex flex-wrap gap-2">
+                      {speaker.data.tracks.map((track) => (
+                        <span class={`font-mono text-code-sm text-${trackAccents[track] ?? 'on-surface-variant'} border border-current/30 px-2 py-0.5 text-xs`}>
+                          {trackLabels[track] ?? track}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div class="flex-1">
+                    <p class="font-display text-headline-md uppercase tracking-tight leading-tight">{speaker.data.name}</p>
+                    <p class="font-body text-body-md text-on-surface-variant mt-1">{speaker.data.role}</p>
+                  </div>
+
+                  {speaker.data.talkTitle && (
+                    <p class="font-mono text-code-sm text-on-surface-variant/60 border-t border-outline-variant pt-3 leading-snug">
+                      {speaker.data.talkTitle}
+                    </p>
+                  )}
+
+                  <!-- Links -->
+                  {Object.values(speaker.data.links).some(Boolean) && (
+                    <div class="flex gap-3 pt-2 border-t border-outline-variant">
+                      {speaker.data.links.web && (
+                        <a href={speaker.data.links.web} rel="noopener noreferrer" target="_blank"
+                           class="font-mono text-code-sm text-on-surface-variant hover:text-primary-container transition-colors duration-150"
+                           aria-label={`Web de ${speaker.data.name}`}>WEB</a>
+                      )}
+                      {speaker.data.links.github && (
+                        <a href={`https://github.com/${speaker.data.links.github}`} rel="noopener noreferrer" target="_blank"
+                           class="font-mono text-code-sm text-on-surface-variant hover:text-primary-container transition-colors duration-150"
+                           aria-label={`GitHub de ${speaker.data.name}`}>GH</a>
+                      )}
+                      {speaker.data.links.twitter && (
+                        <a href={`https://twitter.com/${speaker.data.links.twitter}`} rel="noopener noreferrer" target="_blank"
+                           class="font-mono text-code-sm text-on-surface-variant hover:text-primary-container transition-colors duration-150"
+                           aria-label={`Twitter de ${speaker.data.name}`}>TW</a>
+                      )}
+                      {speaker.data.links.linkedin && (
+                        <a href={`https://linkedin.com/in/${speaker.data.links.linkedin}`} rel="noopener noreferrer" target="_blank"
+                           class="font-mono text-code-sm text-on-surface-variant hover:text-primary-container transition-colors duration-150"
+                           aria-label={`LinkedIn de ${speaker.data.name}`}>LI</a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        /* Placeholders quan la col·lecció és buida */
+        <div>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 list-none mb-8">
+            {Array.from({ length: PLACEHOLDER_COUNT }).map((_, i) => (
+              <li aria-label={`Speaker ${i + 1} - Per anunciar`}>
+                <div class="bg-surface-container border border-outline-variant flex flex-col">
+                  <div class="w-full aspect-square bg-surface-container-high border-b border-outline-variant flex items-center justify-center" aria-hidden="true">
+                    <span class="font-mono text-code-sm text-on-surface-variant/20">
+                      {String(i + 1).padStart(2, '0')}_TBA
+                    </span>
+                  </div>
+                  <div class="p-6 flex flex-col gap-3">
+                    <span class="font-mono text-code-sm text-primary-container">
+                      SPEAKER_{String(i + 1).padStart(2, '0')}
+                    </span>
+                    <p class="font-display text-headline-md uppercase tracking-tight">PROPERAMENT</p>
+                    <p class="font-body text-body-md text-on-surface-variant/50 text-sm">[ TBA ]</p>
+                    <div class="border-t border-outline-variant pt-3 mt-auto">
+                      <span class="font-mono text-code-sm text-on-surface-variant/40">STATUS: PENDING</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div class="bg-surface-container border border-primary-container/20 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <p class="font-mono text-code-sm text-primary-container uppercase tracking-widest mb-1">[ VOLS SER SPEAKER? ]</p>
+              <p class="font-body text-body-md text-on-surface-variant">El CFP és obert. Presenta la teva xerrada i forma part del lineup.</p>
+            </div>
+            <CTAButton href={cfpPath} variant="outline" class="shrink-0">
+              PRESENTA LA TEVA XERRADA →
+            </CTAButton>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       STATUS BAR
+  ═══════════════════════════════════════════════ -->
+  <aside class="border-t border-outline-variant bg-surface-container-lowest" aria-label="Estat de la conferència">
+    <div class="max-w-5xl mx-auto px-6 py-6">
+      <dl class="flex flex-wrap gap-x-10 gap-y-3">
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">CFP_STATUS</dt>
+          <dd class="font-mono text-code-sm text-primary-container">[ OPEN ]</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">YEAR</dt>
+          <dd class="font-mono text-code-sm text-on-surface">2026_TBA</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">LOCATION</dt>
+          <dd class="font-mono text-code-sm text-on-surface">[ TBA ]</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">TRACKS</dt>
+          <dd class="font-mono text-code-sm text-on-surface">04</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">LANG</dt>
+          <dd class="font-mono text-code-sm text-on-surface">CAT / ENG / ESP</dd>
+        </div>
+        <div class="flex items-center gap-3">
+          <dt class="font-mono text-code-sm text-on-surface-variant/60 uppercase">SPEAKERS</dt>
+          <dd class="font-mono text-code-sm text-on-surface">
+            {speakers.length > 0 ? speakers.length : '[ TBA ]'}
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </aside>
+
+</BaseLayout>
